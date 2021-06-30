@@ -1,0 +1,170 @@
+[
+  {
+    "input_stream": {
+      "protocols": {
+        "rtsp": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "path": ""
+        },
+        "rtp": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "options": ""
+        },
+        "rtmp": {
+          "enabled": true,
+          "username": "",
+          "password": "",
+          "server": "192.168.0.162",
+          "port": "1935",
+          "app": "app",
+          "instance": "test",
+          "path": ""
+        },
+        "mpeg-ts": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "options": ""
+        },
+        "srt": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "options": ""
+        },
+        "hls": {
+          "enabled": false,
+          "host": "",
+          "path": ""
+        }
+      },
+      "codecs": {
+        "video_codecs": {
+          "mjpeg": {
+            "enabled": false,
+            "value": "mjpeg"
+          },
+          "mpeg4": {
+            "enabled": false,
+            "value": "mpeg4"
+          },
+          "h264": {
+            "enabled": true,
+            "value": "libx264"
+          },
+          "h265": {
+            "enabled": false,
+            "value": "libx265"
+          }
+        },
+        "audio_codecs": {
+          "g726": {
+            "enabled": false,
+            "value": "g726"
+          },
+          "aac": {
+            "enabled": true,
+            "value": "aac"
+          },
+          "g711": {
+            "enabled": false,
+            "value": "g711"
+          }
+        }
+      }
+    },
+    "output_stream": {
+      "protocols": {
+        "rtsp": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "path": ""
+        },
+        "rtp": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "options": ""
+        },
+        "rtmp": {
+          "enabled": false,
+          "username": "",
+          "password": "",
+          "server": "",
+          "port": "",
+          "app": "",
+          "instance": "",
+          "path": ""
+        },
+        "mpeg-ts": {
+          "enabled": true,
+          "hostname": "0.0.0.0",
+          "port": "5000",
+          "options": "?packet_size=65535"
+        },
+        "srt": {
+          "enabled": false,
+          "hostname": "",
+          "port": "",
+          "options": ""
+        },
+        "hls": {
+          "enabled": false,
+          "host": "",
+          "path": ""
+        }
+      },
+      "codecs": {
+        "video_codecs": {
+          "mjpeg": {
+            "enabled": false,
+            "value": "mjpeg"
+          },
+          "mpeg4": {
+            "enabled": false,
+            "value": "mpeg4"
+          },
+          "h264": {
+            "enabled": true,
+            "value": "libx264"
+          },
+          "h265": {
+            "enabled": false,
+            "value": "libx265"
+          }
+        },
+        "audio_codecs": {
+          "g726": {
+            "enabled": false,
+            "value": "g726"
+          },
+          "aac": {
+            "enabled": true,
+            "value": "aac"
+          },
+          "g711": {
+            "enabled": false,
+            "value": "g711"
+          }
+        }
+      }
+    },
+    "additional_settings": {
+      "pix_fmt": "yuv420p",
+      "level": 4.1,
+      "preset": "ultrafast",
+      "tune": "zerolatency",
+      "video_bitrate": 1984000,
+      "audio_bitrate": 128000,
+      "threads": 2,
+      "r": 30,
+      "s": "640x480",
+      "f": "mpegts"
+    }
+  }
+]
