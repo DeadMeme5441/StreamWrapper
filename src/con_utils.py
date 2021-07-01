@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
-import ffmpeg
+import logging
 import json
+import time
+from datetime import datetime
+import subprocess
+import threading
+import ffmpeg
 
 
 def test():
@@ -35,7 +40,7 @@ def test():
     )
 
 
-def read_config(config_file_path="./config.json"):
+def read_config(config_file_path="../config/config.json"):
     """
     Reads the default config of the server and sends it as a dictionary.
     All config settings are saved in the config.json file in the same directory.
@@ -58,10 +63,10 @@ def write_config():
     Confirms changes in the end so you can always re-write.
     """
     config = {}
-    with open("config.json", "r") as config_file:
+    with open("../config/config.json", "r") as config_file:
         config = json.load(config_file)
 
-    with open("backup_config.json", "w") as def_config_file:
+    with open("../config/backup_config.json", "w") as def_config_file:
         json.dump(config, def_config_file)
 
     config = config[0]
@@ -234,12 +239,12 @@ def gen_settings():
     return final_settings
 
 
-def start_server(final_setts):
+def get_server_args(final_setts):
     """
-    Starts server with final settings passed as a parameter.
+    Returns the args for the process to start based on the settings generated.
     """
 
-    process = (
+    server_args = (
         ffmpeg.input(final_setts["input_server"], listen=1)
         .output(
             final_setts["output_server"],
@@ -247,14 +252,43 @@ def start_server(final_setts):
             acodec=final_setts["output_audio_codec"],
             **final_setts["additional_settings"],
         )
-        .run()
+        .compile()
     )
 
+    return server_args
 
-def stop_server():
 
-    return_code = 1
-    return return_code
+def start_server(server_arguments):
+    """
+    Main function that manages the process that runs the server.
+    Also logs the process on starting the server.
+    """
+    time_now = time.time()
+    timestamp_now = datetime.fromtimestamp(time_now).strftime("%Y-%m-%d %H:%M:%S")
+    logfile = open("../logs/" + timestamp_now + ".log", "w")
+
+    process = subprocess.Popen(
+        server_arguments,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=logfile,
+        start_new_session=True,
+    )
+    with open(".pid", "w") as pid:
+        pid.write(str(process.pid))
+
+    logfile.close()
+
+    return process
+
+
+def stop_server(process):
+    """
+    Kills subprocess, takes subprocess object as input.
+    """
+    process.terminate()
+
+    return True
 
 
 def get_server_meta():
@@ -263,9 +297,13 @@ def get_server_meta():
     return metadata
 
 
-if __name__ == "__main__":
-
-    print("Pulling config for streaming wrapper.")
+def init_server():
+    """
+    Initializes server from the settings in the config.json file.
+    Returns subprocess object to be modified.
+    """
     fin_settings = gen_settings()
-    print(fin_settings)
-    start_server(fin_settings)
+    serv_process = get_server_args(fin_settings)
+    process_obj = start_server(serv_process)
+
+    return process_obj
